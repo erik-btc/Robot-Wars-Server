@@ -5,8 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
+import org.hibernate.annotations.GenericGenerator;
 
 
 import java.math.BigDecimal;
@@ -14,13 +13,13 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Robots")
-public class Robot {
+public class Robots {
 
-
-    @Column(name = "id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", unique = true, nullable = false)
+    private String id;
 
     @Column(name = "name")
     private String name = null;
@@ -37,11 +36,11 @@ public class Robot {
     @Column(name = "movementRate")
     private BigDecimal movementRate = null;
 
-    public Robot() {
+    public Robots() {
     }
 
 
-    public Robot(String name, BigDecimal health, BigDecimal attackDamage, BigDecimal attackRange, BigDecimal movementRate) {
+    public Robots(String name, BigDecimal health, BigDecimal attackDamage, BigDecimal attackRange, BigDecimal movementRate) {
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
@@ -70,7 +69,7 @@ public class Robot {
         return movementRate;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }

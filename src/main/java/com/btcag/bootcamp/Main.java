@@ -1,19 +1,16 @@
 package com.btcag.bootcamp;
 
+import com.btcag.bootcamp.DatabaseEntities.Connection;
 import com.btcag.bootcamp.DatabaseEntities.PostService;
-import com.btcag.bootcamp.DatabaseEntities.Robot;
+import com.btcag.bootcamp.DatabaseEntities.Robots;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -25,6 +22,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ObjectMapper objectMapper = new ObjectMapper();
 
+
+
         int toDo = 0;
         while (toDo != 5) {
             toDo = InputService.getActionInput(scanner);
@@ -32,10 +31,13 @@ public class Main {
             switch (toDo) {
                 //Roboter erstellen
                 case 1:
-                    Robot robot2Post = InputService.getStatsForRobot(scanner);
-                    postRobot(objectMapper, robot2Post);
+                    Robots robots2Post = InputService.getStatsForRobot(scanner);
+                    postRobot(objectMapper, robots2Post);
                     break;
 
+                case 2:
+                    String id = scanner.nextLine();
+                    deleteRobot(id);
 
 
 
@@ -46,10 +48,10 @@ public class Main {
         }
     }
 
-    private static void postRobot(ObjectMapper objectMapper, Robot robot2Post) throws IOException {
-        String json = objectMapper.writeValueAsString(robot2Post);
+    private static void postRobot(ObjectMapper objectMapper, Robots robots2Post) throws IOException {
+        String json = objectMapper.writeValueAsString(robots2Post);
         // Send the POST request with the Robot object as JSON
-        URL url = new URL("http://localhost:8080/queue");  // Change to your server's URL
+        URL url = new URL("http://localhost:8080/database/robots/add");  // Change to your server's URL
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -65,8 +67,18 @@ public class Main {
         int statusCode = connection.getResponseCode();
         System.out.println("Response Code: " + statusCode);
 
-        PostService.postRobot(robot2Post);
+    }
 
+
+    private static void deleteRobot(String id) throws IOException {
+        Session session = Connection.getSession();
+        session.beginTransaction();
+        Robots robot = session.createQuery( "select r from Robots r where r.id = '"+id+"'", Robots.class).getSingleResult();
+
+        System.out.println(robot);
+        session.createQuery("delete from Robots r where r.id = :id").setParameter("id", id).executeUpdate();
+
+        session.getTransaction().commit();
 
     }
 }

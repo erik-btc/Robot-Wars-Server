@@ -1,13 +1,13 @@
 package com.btcag.bootcamp;
 
-import com.btcag.bootcamp.DatabaseEntities.Robot;
+import com.btcag.bootcamp.DatabaseEntities.Robots;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class InputService {
 
-    public static Robot getStatsForRobot(Scanner scanner) {
+    public static Robots getStatsForRobot(Scanner scanner) {
         String name;
         int health = 1, attackDamage = 1, attackRange = 1, movementRate = 1;
         int in;
@@ -50,7 +50,7 @@ public class InputService {
         System.out.println("Movement: " + movementRate);
         System.out.println();
 
-        return new Robot(name, new BigDecimal(health), new BigDecimal(attackDamage), new BigDecimal(attackRange), new BigDecimal(movementRate));
+        return new Robots(name, new BigDecimal(health), new BigDecimal(attackDamage), new BigDecimal(attackRange), new BigDecimal(movementRate));
 
     }
 
@@ -59,9 +59,7 @@ public class InputService {
         do {
             System.out.println("Was willst du tun?");
             System.out.println("(1) Einen Roboter erstellen");
-            System.out.println("(2) Eine Map laden");
-            System.out.println("(3) Ein Spiel erstellen");
-            System.out.println("(4) Einem Spiel beitreten");
+            System.out.println("(2) Einen Roboter Löschen");
             System.out.println("(5) Exit");
             input = scanner.nextInt();
         } while (input != 1 && input != 2 && input != 3 && input != 4 && input != 5);
