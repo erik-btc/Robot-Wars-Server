@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.btcag.bootcamp</groupId>
-    <artifactId>WebViewForRobots</artifactId>
+    <artifactId>Robot-Wars-Server</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -36,5 +36,30 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- Spring Boot Plugin for creating an executable JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Maven JAR Plugin to define Main-Class -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.btcag.bootcamp.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
+
