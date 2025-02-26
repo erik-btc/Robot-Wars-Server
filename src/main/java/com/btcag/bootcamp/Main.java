@@ -18,34 +18,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(Main.class, args);
-
-        Scanner scanner = new Scanner(System.in);
-        ObjectMapper objectMapper = new ObjectMapper();
-
-
-
-        int toDo = 0;
-        while (toDo != 5) {
-            toDo = InputService.getActionInput(scanner);
-            scanner.nextLine();
-            switch (toDo) {
-                //Roboter erstellen
-                case 1:
-                    Robots robots2Post = InputService.getStatsForRobot(scanner);
-                    postRobot(objectMapper, robots2Post);
-                    break;
-
-                case 2:
-                    String id = scanner.nextLine();
-                    deleteRobot(id);
-
-
-
-
-                case 5:
-                    break;
-            }
-        }
     }
 
     private static void postRobot(ObjectMapper objectMapper, Robots robots2Post) throws IOException {
